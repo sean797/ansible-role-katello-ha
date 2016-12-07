@@ -1,0 +1,10 @@
+# file: tasks/install_rhel.yml -- install postgresql packages for RedHat/CentOS
+
+- name: "Install PostgreSQL packages"
+  yum: 
+    state: "{{ postgresql_package_state }}"
+    pkg: "{{ item }}"
+  with_items:
+    - postgresql-server
+    - postgresql-contrib
+#    - python-psycopg2

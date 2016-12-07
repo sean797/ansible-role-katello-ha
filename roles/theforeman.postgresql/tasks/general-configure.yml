@@ -1,0 +1,4 @@
+# file: tasks/general-configure.yml -- postgresql general pre-start configuration of master server and startup
+
+- name: "Stop old postgresql service"
+  service: name="{{ postgresql_service_name }}" state=stopped

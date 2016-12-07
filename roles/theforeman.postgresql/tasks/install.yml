@@ -1,0 +1,9 @@
+# file: tasks/install.yml -- install postgresql packages
+
+- name: "Install PostgreSQL on RedHat/CentOS"
+  include: 'install_rhel.yml'
+  when: ansible_os_family == "RedHat" and ansible_architecture == "x86_64"
+
+#- name: "Install PostgreSQL on Debian/Ubuntu"
+#  include: 'install_deb.yml'
+#  when: ansible_os_family == 'Debian'
