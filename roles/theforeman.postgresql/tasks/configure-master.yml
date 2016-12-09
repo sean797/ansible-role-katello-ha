@@ -1,15 +1,22 @@
 # file: tasks/configure-master.yml -- postgresql pre-start configuration of master server and startup
 
-- name: "Check cluster directory"
+- name: "Check cluster directory exists"
   stat:
     path: "{{ postgresql_data_dir }}"
   register: postgresql_data_stat
+
+- name: "Check cluster directory exists"
+  find:
+    paths: "{{ postgresql_data_dir }}"
+  register: postgresql_data_find 
 
 - name: "Initialize new postgresql cluster"
   become: true
   become_user: "{{ postgresql_admin_user }}"
   command: "{{ postgresql_exec_dir }}/initdb -D {{ postgresql_data_dir }}"
-  when: postgresql_data_stat.stat.exists == False
+  when: postgresql_data_stat.stat.exists == False or postgresql_data_find.matched|int == 0
+  notify:
+    - restart postgresql
 
 - name: "Configure pg_hba.conf"
   template:
@@ -18,6 +25,8 @@
     owner: "{{ postgresql_admin_user }}"
     group: "{{ postgresql_admin_user }}"
     mode: 0640
+  notify:
+    - restart postgresql
 
 - name: "Configure postgresql.conf"
   lineinfile:
@@ -26,15 +35,11 @@
     regexp: "{{ item.regexp }}"
     line: "{{ item.guc }}"
   with_items: "{{ postgresql_conf_default_guc }}"
+  notify:
+    - restart postgresql
 
-- name: "Stage 2: create postgresql log directory"
-  file:
-    path: "{{ postgresql_log_directory }}"
-    state: directory
-    owner: "{{ postgresql_admin_user }}"
-    group: "{{ postgresql_admin_user }}"
-    mode: 0755
-  when: postgresql_log_directory is defined
-
-- name: "Stage 2: start postgresql service"
-  service: name="{{ postgresql_service_name }}" state=restarted enabled=yes
+- name: "Start postgresql service"
+  service: 
+    name: "{{ postgresql_service_name }}"
+    state: started
+    enabled: yes

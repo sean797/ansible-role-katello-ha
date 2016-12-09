@@ -69,14 +69,5 @@
     group: "{{ postgresql_admin_user }}"
     mode: 0640
 
-- name: "Stage 3: create postgresql log directory"
-  file:
-    path: "{{ postgresql_log_directory }}"
-    state: directory
-    owner: "{{ postgresql_admin_user }}"
-    group: "{{ postgresql_admin_user }}"
-    mode: 0755
-  when: postgresql_log_directory is defined
-
 - name: "Stage 3: start postgresql service"
   service: name="{{postgresql_service_name }}" state=restarted enabled=yes

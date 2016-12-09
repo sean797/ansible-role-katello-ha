@@ -1,6 +1,8 @@
 ---
 - name: Install and configure PostgreSQL replica sets
-  hosts: db-postgresql
+  hosts:
+    - postgresql-master
+    - postgresql-slaves
   remote_user: root
   vars_files:
     - 'vars_postgresql.yml'
@@ -9,8 +11,9 @@
 
 #  tasks:
 #    - name: masters
-#      command: echo "postgresql_master "{{ ansible_hostname }}""
-#      when: postgresql_master|default(false)|bool == true
+#      debug: msg="{{ groups['postgresql-slaves']|length +1 }}"
+   #   command: echo "postgresql_master "{{ ansible_hostname }}""
+   #   when: postgresql_master|default(false)|bool == true
 #    
 #    - name: slaves
 #      command: echo "postgresql_slave "{{ ansible_hostname }}""

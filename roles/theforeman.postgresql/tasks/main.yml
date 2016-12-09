@@ -4,12 +4,14 @@
   tags:
     - install
 
-- name: Configuring postgresql
-  include: 'general-configure.yml'
+#- name: Configuring postgresql
+#  include: 'general-configure.yml'
+#  tags:
+#    - configure
 
 - name: Configuring the postgresql master
   include: 'configure-master.yml'
-  when: postgresql_master|default(false)|bool == true
+  when: '"postgresql-master" in group_names'
   tags:
     - configure
 
@@ -19,5 +21,7 @@
 #  when: postgresql_master == 'true'
 #
 #- name: Configuring slaves
+#  hosts: 
+#    - "{{ postgresql_slaves_group }}"
 #  include: 'configure-slaves.yml'
 #  when: postgresql_master == 'false'

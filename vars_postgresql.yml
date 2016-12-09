@@ -2,6 +2,3 @@
 postgresql_streaming_user:
   name: rep
   pass: secret
-#postgresql_streaming_master: katello-01.example.com
-#postgresql_streaming_slaves:
-# - katello-02.example.com
