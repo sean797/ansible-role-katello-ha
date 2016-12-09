@@ -5,7 +5,7 @@
     path: "{{ postgresql_data_dir }}"
   register: postgresql_data_stat
 
-- name: "Check cluster directory exists"
+- name: "Check cluster directory is empty"
   find:
     paths: "{{ postgresql_data_dir }}"
   register: postgresql_data_find 

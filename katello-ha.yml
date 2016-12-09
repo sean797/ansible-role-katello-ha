@@ -11,7 +11,7 @@
 
 #  tasks:
 #    - name: masters
-#      debug: msg="{{ groups['postgresql-slaves']|length +1 }}"
+#      debug: msg="{{ groups['postgresql-master'] }}"
    #   command: echo "postgresql_master "{{ ansible_hostname }}""
    #   when: postgresql_master|default(false)|bool == true
 #    

@@ -90,5 +90,6 @@ host	all		all		::1/128			md5
 #{% endfor %}
 
 {% for slave in groups['postgresql-slaves'] %}
-host	all		{{ postgresql_replication_user.name }}			{{ slave }}/32			{{ postgresql_default_ipv4_auth_method }}
+host	replication	{{ postgresql_replication_user.name }}		192.168.124.190/32		{{ postgresql_default_ipv4_auth_method }}
+#host	replication	{{ postgresql_replication_user.name }}		{{ slave }}/32		{{ postgresql_default_ipv4_auth_method }}
 {% endfor %}

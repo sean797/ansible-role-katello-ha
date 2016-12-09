@@ -7,4 +7,4 @@
   with_items:
     - postgresql-server
     - postgresql-contrib
-#    - python-psycopg2
+    - python-psycopg2

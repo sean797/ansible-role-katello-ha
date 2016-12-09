@@ -12,14 +12,10 @@
 - name: Configuring the postgresql master
   include: 'configure-master.yml'
   when: '"postgresql-master" in group_names'
-  tags:
-    - configure
-
 - include: 'users.yml'
   when: '"postgresql-master" in group_names'
-
-- include: 'databases.yml'
-  when: '"postgresql-master" in group_names'
+#- include: 'databases.yml'
+#  when: '"postgresql-master" in group_names'
 
 - name: Configuring slaves
   include: 'configure-slaves.yml'
