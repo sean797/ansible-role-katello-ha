@@ -13,7 +13,7 @@
 - name: "Initialize new postgresql cluster"
   become: true
   become_user: "{{ postgresql_admin_user }}"
-  command: "{{ postgresql_exec_dir }}/initdb -D {{ postgresql_data_dir }}"
+  command: "{{ postgresql_exec_dir }}/initdb --encoding '{{ postgresql_encoding }}' --pgdata {{ postgresql_data_dir }} --locale '{{ postgresql_locale }}'"
   when: postgresql_data_stat.stat.exists == False or postgresql_data_find.matched|int == 0
   notify:
     - restart postgresql
@@ -24,9 +24,9 @@
     dest: "{{ postgresql_conf_dir }}/pg_hba.conf"
     owner: "{{ postgresql_admin_user }}"
     group: "{{ postgresql_admin_user }}"
-    mode: 0640
+    mode: 0600
   notify:
-    - restart postgresql
+    - reload postgresql
 
 - name: "Configure postgresql.conf"
   lineinfile:

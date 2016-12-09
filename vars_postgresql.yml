@@ -1,4 +1,4 @@
 ---
-postgresql_streaming_user:
+postgresql_replication_user:
   name: rep
-  pass: secret
+  pass: changeme

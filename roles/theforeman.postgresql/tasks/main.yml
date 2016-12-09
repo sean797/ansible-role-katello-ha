@@ -15,13 +15,12 @@
   tags:
     - configure
 
-#- include: 'users.yml'
-#  when: postgresql_master == 'true'
-#- include: 'databases.yml'
-#  when: postgresql_master == 'true'
-#
-#- name: Configuring slaves
-#  hosts: 
-#    - "{{ postgresql_slaves_group }}"
-#  include: 'configure-slaves.yml'
-#  when: postgresql_master == 'false'
+- include: 'users.yml'
+  when: '"postgresql-master" in group_names'
+
+- include: 'databases.yml'
+  when: '"postgresql-master" in group_names'
+
+- name: Configuring slaves
+  include: 'configure-slaves.yml'
+  when: '"postgresql-slaves" in group_names'

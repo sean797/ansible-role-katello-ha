@@ -5,3 +5,9 @@
     name: "{{ postgresql_service_name }}"
     state: restarted
     enabled: yes
+
+- name: reload postgresql
+  service: 
+    name: "{{ postgresql_service_name }}"
+    state: reloaded
+    enabled: yes

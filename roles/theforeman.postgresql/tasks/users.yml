@@ -1,6 +1,8 @@
 # file: tasks/users.yml -- manage postgresql roles
 
-- name: "Stage 3: add postgresql roles"
+- name: "Add postgresql roles"
+  become: true
+  become_user: 'postgres'
   postgresql_user:
     state: present
     name: "{{ item.name }}"
@@ -8,17 +10,15 @@
     password: "{{ item.pass }}"
     role_attr_flags: "{{ item.flags }}"
   with_items: "{{ postgresql_users }}"
-  when: postgresql_users and postgresql_users|length > 0
+  when: postgresql_users is defined and postgresql_users|length > 0
+
+- name: "Add postgresql replication roles"
   become: true
   become_user: 'postgres'
-
-- name: "Stage 3: add postgresql replication roles"
   postgresql_user:
     state: present
-    name: "{{ postgresql_streaming_user.name }}"
+    name: "{{ postgresql_replication_user.name }}"
     encrypted: no
-    password: "{{ postgresql_streaming_user.pass }}"
+    password: "{{ postgresql_replication_user.pass }}"
     role_attr_flags: REPLICATION
-  when: postgresql_streaming_user and postgresql_streaming_user|length > 0
-  become: true
-  become_user: 'postgres'
+  when: postgresql_replication_user and postgresql_replication_user|length > 0
