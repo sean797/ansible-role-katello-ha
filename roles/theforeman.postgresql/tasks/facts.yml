@@ -1,0 +1,13 @@
+- name: ensure custom facts directory exists
+  file:
+    path: /etc/ansible/facts.d
+    recurse: yes
+    state: directory
+
+- name: install custom fact module for IP address
+  template:
+    src: psql_facts.sh.j2
+    dest: /etc/ansible/facts.d/psql_facts.fact
+    mode: 0755
+  notify:
+    - reload ansible_local

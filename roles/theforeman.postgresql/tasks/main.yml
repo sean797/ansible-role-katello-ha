@@ -1,4 +1,9 @@
 ---
+- name: gather facts
+  include: 'facts.yml'
+  tags:
+    - setup
+
 - name: Installing postgresql
   include: 'install.yml'
 

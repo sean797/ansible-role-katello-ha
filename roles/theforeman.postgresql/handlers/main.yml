@@ -1,5 +1,9 @@
 # handlers/main.yml 
 
+- name: reload ansible_local
+  setup:
+    filter: ansible_local
+
 - name: restart postgresql
   service: 
     name: "{{ postgresql_service_name }}"
