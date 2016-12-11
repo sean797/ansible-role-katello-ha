@@ -25,8 +25,14 @@
     owner: "{{ postgresql_admin_user }}"
     group: "{{ postgresql_admin_user }}"
     mode: 0600
-  notify:
-    - reload postgresql
+  register: result
+
+- name: reload postgresql
+  service:
+    name: "{{ postgresql_service_name }}"
+    state: reloaded
+    enabled: yes
+  when: result|changed
 
 - name: "Configure postgresql.conf"
   lineinfile:

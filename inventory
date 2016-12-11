@@ -1,7 +1,7 @@
 # file: inventory -- exmaple inventory file.
 
 [postgresql-master]
-katello-02.example.com
+katello-01.example.com
 
 [postgresql-slaves]
-katello-01.example.com
+katello-02.example.com

@@ -1,11 +1,11 @@
 #!/bin/bash
 
-SQL=`sudo -u postgres  psql -x -c "SELECT pg_is_in_recovery();" | head -2 | tail -1 | awk '{print $3}'`
+SQL=`sudo -u postgres psql -x -c "SELECT pg_is_in_recovery();" | awk 'FNR == 2 {print $3}'`
 
 if [[ $SQL == *"t"* ]]; then
-  STATE="master"
-elif [[ $SQL == *"f"* ]]; then
   STATE="slave"
+elif [[ $SQL == *"f"* ]]; then
+  STATE="master"
 else
   exit 0
 fi
