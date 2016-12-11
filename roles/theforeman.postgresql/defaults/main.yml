@@ -22,14 +22,12 @@ postgresql_conf_default_guc:
   - { regexp: "^#?max_wal_senders = .*$", guc: "max_wal_senders = {{ groups['postgresql-slaves']|length + 1 }}" }
   - { regexp: "^#?wal_keep_segments = .*$", guc: "wal_keep_segments = {{ 256 }}" }
   - { regexp: "^#?hot_standby = .*$", guc: "hot_standby = {{ 'on' }}" }
+  - { regexp: "^#?synchronous_standby_names = .*$", guc: "synchronous_standby_names = '*'" }
 
 # Postgres users to be created (optional)
 postgresql_users:
 - { name: "web-educaton", pass: "We1234", flags: "LOGIN,SUPERUSER" }
 
-
-# Basic settings
-postgresql_version: 9.4
 
 # Specify database cluster location in case when /var/lib/pgsql/x.y/data directory should be replaced with symlink.
 postgresql_cluster_symlink_src: ""

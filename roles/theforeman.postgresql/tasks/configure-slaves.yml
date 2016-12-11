@@ -1,16 +1,5 @@
 # file: tasks/configure-slaves.yml -- postgresql pre-start configuration of the slave servers and startup
 
-#- name: "Write .pgpass for postgres user"
-#  shell: "echo '*:*:*:{{ postgresql_replication_user.name }}:{{ postgresql_replication_user.pass }}' > ~postgres/.pgpass"
-#
-#- name: "Stage 3: change permissions on .pgpass"
-#  file:
-#    path: ~postgres/.pgpass
-#    state: file
-#    owner: "{{ postgresql_admin_user }}"
-#    group: "{{ postgresql_admin_user }}"
-#    mode: 0600
-
 - name: "Check cluster directory exists"
   stat: path={{ postgresql_data_dir }}
   register: postgresql_data_stat
@@ -20,10 +9,20 @@
     paths: "{{ postgresql_data_dir }}"
   register: postgresql_data_find
 
+- name: "Write .pgpass for postgres user"
+  become: true
+  become_user: "{{ postgresql_admin_user }}"
+  copy:
+    content: "*:*:*:{{ postgresql_replication_user.name  }}:{{ postgresql_replication_user.pass }}\n"
+    dest: ~/.pgpass
+    owner: "{{ postgresql_admin_user }}"
+    group: "{{ postgresql_admin_user }}"
+    mode: 0600
+
 - name: "Initialize new postgresql cluster"
   become: true
   become_user: "{{ postgresql_admin_user }}"
-  command: "{{ postgresql_exec_dir }}/pg_basebackup -c fast -X stream -h {{ groups['postgresql-master'][0] }} -U {{ postgresql_replication_user.name }} -D {{ postgresql_data_dir }}"
+  command: "{{ postgresql_exec_dir }}/pg_basebackup -w -c fast -X stream -h {{ groups['postgresql-master'][0] }} -U {{ postgresql_replication_user.name }} -D {{ postgresql_data_dir }}"
   when: postgresql_data_stat.stat.exists == False or postgresql_data_find.matched|int == 0
 
 - name: "Configure pg_hba.conf"

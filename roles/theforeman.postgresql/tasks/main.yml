@@ -1,13 +1,6 @@
 ---
 - name: Installing postgresql
   include: 'install.yml'
-  tags:
-    - install
-
-#- name: Configuring postgresql
-#  include: 'general-configure.yml'
-#  tags:
-#    - configure
 
 - name: Configuring the postgresql master
   include: 'configure-master.yml'
@@ -17,6 +10,6 @@
 #- include: 'databases.yml'
 #  when: '"postgresql-master" in group_names'
 
-- name: Configuring slaves
+- name: Configuring the postgresql slaves
   include: 'configure-slaves.yml'
   when: '"postgresql-slaves" in group_names'
