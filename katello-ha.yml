@@ -8,6 +8,8 @@
     - 'vars_postgresql.yml'
   roles:
     - theforeman.postgresql
+  tags:
+    - postgresql
 
 #  tasks:
 #    - name: masters

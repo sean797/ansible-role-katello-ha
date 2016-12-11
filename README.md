@@ -15,16 +15,15 @@ By default slaves & and master will communicate over the `[ansible_default_ipv4'
 #### How to deal with failure:
 ##### Slave failure scenario:
 - Ensure postgresql-slaves & postgresql-master inventory groups are set correctly
-- run `ansible-playbook katello-ha.yml`
+- run `ansible-playbook katello-ha.yml -t postgresql`
 
 ##### Master failure scenario:
 - Force slave to take over as the master using `sudo -u postgres pg_ctl promote`
 - Reconfigure inventory groups so the new master and slaves(s) are set correctly, 
-- run `ansible-playbook katello-ha.yml`
-
+- run `ansible-playbook katello-ha.yml -t postgresql`
 
 TODO:
-deal with master or slave failure
+deal with master or slave failure automatically, potentially dangerous  
 
 A description of the settable variables for this role should go here, including any variables that are in defaults/main.yml, vars/main.yml, and any variables that can/should be set via parameters to the role. Any variables that are read from other roles and/or the global scope (ie. hostvars, group vars, etc.) should be mentioned here as well.
 
