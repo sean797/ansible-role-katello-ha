@@ -5,3 +5,7 @@ katello-01.example.com
 
 [postgresql-slaves]
 katello-02.example.com
+
+[memcache]
+katello-01.example.com
+katello-02.example.com

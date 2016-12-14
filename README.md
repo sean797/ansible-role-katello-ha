@@ -18,7 +18,7 @@ By default slaves & and master will communicate over the `[ansible_default_ipv4'
 - run `ansible-playbook katello-ha.yml -t postgresql`
 
 ##### Master failure scenario:
-- Force slave to take over as the master using `sudo -u postgres pg_ctl promote`
+- Force a slave to take over as the master using `sudo -u postgres pg_ctl promote`
 - Reconfigure inventory groups so the new master and slaves(s) are set correctly, 
 - run `ansible-playbook katello-ha.yml -t postgresql`
 

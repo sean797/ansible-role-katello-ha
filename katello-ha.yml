@@ -11,6 +11,17 @@
   tags:
     - postgresql
 
+- name: Install and configure Memcached
+  hosts:
+    - memcache
+  remote_user: root
+  vars_files:
+    - 'vars_memcache.yml'
+  roles:
+    - geerlingguy.memcached
+  tags:
+    - memcache
+
 #  tasks:
 #    - name: masters
 #      debug: msg="{{ groups['postgresql-master'] }}"
